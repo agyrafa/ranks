@@ -1,5 +1,6 @@
 <?php 
 
+// database info
 $servername = "mysql796.umbler.com:41890";
 $username = "drawandcode";
 $password = "BGr9mRaV7?ZGcK+";
@@ -14,62 +15,44 @@ if ($conn->connect_error) {
     die("Connection failed: " 
         . $conn->connect_error);
 }
-  
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  
-    // Taking all 3 values from the form data(input)
-    $id         =   rand();
-    $name       =   $_REQUEST['name'];
-    $email      =   $_REQUEST['email'];
-    $rank       =   intval($_REQUEST['rank']);
-    
-    $sql = "INSERT INTO users VALUES ('$id', '$email', '$name', '$rank')";
-
-    print_r($sql);
-
-    if(mysqli_query($conn, $sql)){
-        echo "<h3>data stored in a database successfully." 
-            . " Please browse your localhost php my admin" 
-            . " to view the updated data</h3>"; 
-
-        header("Location: http://localhost/ranks/");
-    } else{
-        echo "ERROR: Hush! Sorry $sql. " 
-            . mysqli_error($conn);
-    }
-    
-    // Close connection
-    mysqli_close($conn);
-}
 
 $sql = "SELECT id, email, name, rank FROM users";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-  // output data of each row
-  echo '<div class="grid-container">
-            <div class="grid-x grid-padding-x">
-                <table class="stack hover">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>E-mail</th>
-                            <th>Rank</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
+  // output data on each row
   while($row = $result->fetch_assoc()) {
-      echo "<tr>
-        <td>".$row["id"]."</td>
-        <td>".$row["name"]."</td>
-        <td>".$row["email"]."</td>
-        <td><img width='35' src='assets/img/".$row["rank"].".png'/></td>
-    </tr>";
-  }
-  echo '</tbody></table></div></div>';
+      echo '
+        <div class="medium-3 item">
+            <div class="card">
+                <div class="card-rank" data-rank="'.$row["rank"].'">
+                    <img width="35" src="assets/img/'.$row["rank"].'.png"/>
+                    <div class="rankSelect hide">
+                        <select name="rank" class="rankSpan">
+                            <option value="0">Rank</option>
+                            <option value="1">Bronze</option>
+                            <option value="2">Silver</option>
+                            <option value="3">Gold</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <p class="id hide">'.$row["id"].'</p>
+                    <p><span class="nameSpan">'.$row["name"].'</span></p>
+                    <p class="email"><span class="emailSpan">'.$row["email"].'</span></p>
+                </div>
+                <div class="card-footer">
+                    <button class="button submitBtn hide"><i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>';
+    }
 } else {
-  echo "No results";
+    echo '<div class="grid-container spacer50">
+            <div class="grid-x grid-padding-x">
+                <p>No results.</p>
+            </div>
+        </div>';
 }
 $conn->close();
 

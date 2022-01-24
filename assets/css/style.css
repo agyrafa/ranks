@@ -1,0 +1,43 @@
+.spacer50 {
+    padding: 50px 0;
+}
+
+.spacer20 {
+    padding: 20px 0;
+}
+
+.item {
+    padding: 0 15px;
+}
+
+.card {
+    border-radius: 8px;
+    display: flex;
+    padding: 15px;
+    border: none;
+    box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px;
+}
+
+.card .card-rank {
+    display: flex;
+}
+
+.card img {
+    margin: 0 auto 15px;
+}
+
+.card-footer {
+    display: flex;
+}
+
+.submitBtn {
+    margin: auto;
+}
+
+.email:hover {
+    cursor: pointer;
+}
+
+.rankSelect {
+    width: 100%;
+}
